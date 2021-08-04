@@ -90,7 +90,7 @@ class ReplicatorAliasTest extends BrowserTestBase {
     $this->setupWorkspaceSwitcherBlock();
 
     $this->entityTypeManager = \Drupal::entityTypeManager();
-    $this->aliasManager = \Drupal::service('path.alias_manager');
+    $this->aliasManager = \Drupal::service('path_alias.manager');
     $this->pathAutoGenerator = \Drupal::service('pathauto.generator');
   }
 

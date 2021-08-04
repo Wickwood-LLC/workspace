@@ -74,13 +74,15 @@ class ReplicationSettingsTest extends BrowserTestBase {
     $this->drupalGet('/node/add/test');
     // For Drupal 8.4.x.
     if ($this->xpath('//input[@id="edit-status-value"]')) {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Published node',
       ], t('Save'));
     }
     // For Drupal 8.3.x.
     else {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Published node',
       ], t('Save and publish'));
     }
@@ -92,14 +94,16 @@ class ReplicationSettingsTest extends BrowserTestBase {
     $this->drupalGet('/node/add/test');
     // For Drupal 8.4.x.
     if ($this->xpath('//input[@id="edit-status-value"]')) {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'status[value]' => FALSE,
         'title[0][value]' => 'Unpublished node',
       ], t('Save'));
     }
     // For Drupal 8.3.x.
     else {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Unpublished node',
       ], t('Save as unpublished'));
     }
@@ -184,13 +188,15 @@ class ReplicationSettingsTest extends BrowserTestBase {
     $this->drupalGet('/node/add/test');
     // For Drupal 8.4.x.
     if ($this->xpath('//input[@id="edit-status-value"]')) {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Published node',
       ], t('Save'));
     }
     // For Drupal 8.3.x.
     else {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Published node',
       ], t('Save and publish'));
     }
@@ -202,14 +208,16 @@ class ReplicationSettingsTest extends BrowserTestBase {
     $this->drupalGet('/node/add/test');
     // For Drupal 8.4.x.
     if ($this->xpath('//input[@id="edit-status-value"]')) {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'status[value]' => FALSE,
         'title[0][value]' => 'Unpublished node',
       ], t('Save'));
     }
     // For Drupal 8.3.x.
     else {
-      $this->drupalPostForm(NULL, [
+      $this->drupalGet(NULL);
+      $this->submitForm([
         'title[0][value]' => 'Unpublished node',
       ], t('Save as unpublished'));
     }

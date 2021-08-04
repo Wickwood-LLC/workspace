@@ -114,7 +114,8 @@ class EntityTypeAlterTest extends BrowserTestBase {
 
     // Update block.
     $edit['info[0][value]'] = $this->randomMachineName(16);
-    $this->drupalPostForm('block/' . $block_content->id(), $edit, t('Save'));
+    $this->drupalGet('block/' . $block_content->id());
+    $this->submitForm($edit, t('Save'));
 
     $this->drupalGet('/block/' . $block_content->id() . '/tree');
     $this->assertSession()->pageTextContains('Status: available');

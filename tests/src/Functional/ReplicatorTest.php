@@ -435,7 +435,8 @@ class ReplicatorTest extends BrowserTestBase {
     $submit_is_disabled = $this->cssSelect('form.unblock-replication-form input[type="submit"]:disabled');
     $this->assertTrue(count($submit_is_disabled) === 0, 'The Unblock replication button is disabled.');
     $this->assertSession()->buttonExists('Unblock replication');
-    $this->drupalPostForm(NULL, [], 'Unblock replication');
+    $this->drupalGet(NULL);
+    $this->submitForm([], 'Unblock replication');
     $session = $this->getSession();
     $this->assertEquals(200, $session->getStatusCode());
     $this->assertFalse($state->get('workspace.last_replication_failed'));

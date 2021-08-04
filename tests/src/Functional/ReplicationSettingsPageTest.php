@@ -71,20 +71,32 @@ class ReplicationSettingsPageTest extends BrowserTestBase {
   public function testReplicationConfigurationForms() {
     $this->drupalLogin($this->user);
     $this->drupalGet('admin/config/replication/settings');
-    $this->assertText("Unblock replication");
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains("Unblock replication");
     // Ensure Unblock replication button for
     // Drupal\workspace\Form\UnblockReplicationForm is again.
     $submit_is_disabled = $this->cssSelect('form.unblock-replication-form input[type="submit"]:disabled');
     $this->assertTrue(count($submit_is_disabled) === 1, 'The Unblock replication button is disabled.');
-    $this->assertText('Clear replication queue');
-    $this->assertText('Replication settings');
-    $this->assertText('Replication configuration');
-    $this->assertFieldByName('mapping_type', 'uid_1');
-    $this->assertFieldByName('uid', '');
-    $this->assertFieldByName('changes_limit', 100);
-    $this->assertFieldByName('bulk_docs_limit', 100);
-    $this->assertFieldByName('replication_execution_limit', 1);
-    $this->assertFieldByName('verbose_logging', FALSE);
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Clear replication queue');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Replication settings');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Replication configuration');
+    $this->assertSession()->fieldValueEquals('mapping_type', 'uid_1');
+    $this->assertSession()->fieldValueEquals('uid', '');
+    $this->assertSession()->fieldValueEquals('changes_limit', 100);
+    $this->assertSession()->fieldValueEquals('bulk_docs_limit', 100);
+    $this->assertSession()->fieldValueEquals('replication_execution_limit', 1);
+    $this->assertSession()->fieldValueEquals('verbose_logging', FALSE);
 
     // Edit config and save.
     $edit = [
@@ -95,37 +107,65 @@ class ReplicationSettingsPageTest extends BrowserTestBase {
       'replication_execution_limit' => 4,
       'verbose_logging' => TRUE,
     ];
-    $this->drupalPostForm(NULL, $edit, 'Save configuration');
+    $this->drupalGet(NULL);
+    $this->submitForm($edit, 'Save configuration');
     // Check field values after form save.
-    $this->assertText('The configuration options have been saved.');
-    $this->assertText('Replication settings');
-    $this->assertText('Replication configuration');
-    $this->assertFieldByName('mapping_type', 'uid');
-    $this->assertFieldByName('uid', $this->user->id());
-    $this->assertFieldByName('changes_limit', 200);
-    $this->assertFieldByName('bulk_docs_limit', 200);
-    $this->assertFieldByName('replication_execution_limit', 4);
-    $this->assertFieldByName('verbose_logging', TRUE);
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('The configuration options have been saved.');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Replication settings');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Replication configuration');
+    $this->assertSession()->fieldValueEquals('mapping_type', 'uid');
+    $this->assertSession()->fieldValueEquals('uid', $this->user->id());
+    $this->assertSession()->fieldValueEquals('changes_limit', 200);
+    $this->assertSession()->fieldValueEquals('bulk_docs_limit', 200);
+    $this->assertSession()->fieldValueEquals('replication_execution_limit', 4);
+    $this->assertSession()->fieldValueEquals('verbose_logging', TRUE);
 
     \Drupal::state()->set('workspace.last_replication_failed', TRUE);
     $this->drupalGet('admin/config/replication/settings');
     // Unblock replication button should be enabled now.
     $submit_is_disabled = $this->cssSelect('form.unblock-replication-form input[type="submit"]:disabled');
     $this->assertTrue(count($submit_is_disabled) === 0, 'The Unblock replication button is disabled.');
+    $this->drupalGet(NULL);
     //Test unblocking.
-    $this->drupalPostForm(NULL, [], 'Unblock replication');
-    $this->assertText('Replications have been unblocked.');
+    $this->submitForm([], 'Unblock replication');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Replications have been unblocked.');
     // Unblock replication button should be disabled.
     $submit_is_disabled = $this->cssSelect('form.unblock-replication-form input[type="submit"]:disabled');
     $this->assertTrue(count($submit_is_disabled) === 1, 'The Unblock replication button is disabled.');
+    $this->drupalGet(NULL);
 
     // Test Clear queue button.
-    $this->drupalPostForm(NULL, [], 'Clear queue');
-    $this->assertText('Are you sure you want to clear the replication queue?');
-    $this->assertText('All replications will be marked as failed and removed from the cron queue, except those that are in progress. This action cannot be undone.');
-    $this->drupalPostForm(NULL, [], 'Clear queue');
-    $this->assertText('There were not any queued deployments in the replication queue.');
-    $this->assertText("Unblock replication");
+    $this->submitForm([], 'Clear queue');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Are you sure you want to clear the replication queue?');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('All replications will be marked as failed and removed from the cron queue, except those that are in progress. This action cannot be undone.');
+    $this->drupalGet(NULL);
+    $this->submitForm([], 'Clear queue');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('There were not any queued deployments in the replication queue.');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains("Unblock replication");
 
     // Test clearing the queue when there are queued replications.
     $earth = Workspace::create(['label' => 'Earth', 'machine_name' => 'earth', 'type' => 'basic']);
@@ -167,13 +207,21 @@ class ReplicationSettingsPageTest extends BrowserTestBase {
     // Something went wrong and on Earth (or Mars) ¯\_(ツ)_/¯ and the user with
     // the right permissions decides to cancel the mission.
     $this->drupalGet('admin/config/replication/settings');
-    $this->drupalPostForm(NULL, [], 'Clear queue');
+    $this->drupalGet(NULL);
+    $this->submitForm([], 'Clear queue');
     // The user is asked for confirmation.
-    $this->assertText('Are you sure you want to clear the replication queue?');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('Are you sure you want to clear the replication queue?');
+    $this->drupalGet(NULL);
     // Here is the confirmation.
-    $this->drupalPostForm(NULL, [], 'Clear queue');
+    $this->submitForm([], 'Clear queue');
     // There should be also a message about successfully executing the operation.
-    $this->assertText('All the queued deployments have been marked as failed and have been removed from the replication queue.');
+    // TODO: Drupal Rector Notice: Please delete the following comment after you've made any necessary changes.
+    // Verify the assertion: pageTextContains() for HTML responses, responseContains() for non-HTML responses.
+    // The passed text should be HTML decoded, exactly as a human sees it in the browser.
+    $this->assertSession()->pageTextContains('All the queued deployments have been marked as failed and have been removed from the replication queue.');
 
     // Load again the missions.
     $missions = $this->entityTypeManager
